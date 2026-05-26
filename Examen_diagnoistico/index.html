@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>To do list</title>
+  <style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e4bee4;
+}
+
+h1 {
+  text-align: left;
+  color: #000000;
+}
+
+input {
+  padding: 10px;
+  background-color: rgb(225, 247, 247);
+  width: 500px;
+}
+
+button {
+  padding: 8px 12px;
+  margin-left: 5px;
+  border: none;
+  background-color: #000000;
+  color: white;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+li {
+  background-color: rgb(225, 247, 247);
+  margin: 5px 0;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+li button {
+  background-color: red;
+  color: white;
+}
+
+li button:hover {
+  background-color: darkred;
+}
+
+#contador {
+  font-weight: bold;
+}
+
+  </style>
+</head>
+<body>
+  <h1>To Do List</h1>
+  <input id="tarea">
+  <button onclick="agregar()">Agregar</button>
+  <ul id="lista"></ul>
+  <p id="contador"></p>
+
+  <script>
+    let tareas = [];
+
+    function agregar() {
+      const input = document.getElementById("tarea");
+      if (input.value === "") return;
+      tareas.push({texto: input.value, hecho: false});
+      input.value = "";
+      mostrar();
+    }
+
+    function mostrar() {
+      const lista = document.getElementById("lista");
+      lista.innerHTML = "";
+      tareas.forEach((t, i) => {
+        const li = document.createElement("li");
+        li.textContent = t.texto;
+        if (t.hecho) li.className = "done";
+        li.onclick = () => { t.hecho = !t.hecho; mostrar(); };
+        const b = document.createElement("button");
+        b.textContent = "X";
+        b.onclick = (e) => { e.stopPropagation(); tareas.splice(i,1); mostrar(); };
+        li.appendChild(b);
+        lista.appendChild(li);
+      });
+      document.getElementById("contador").textContent = tareas.filter(x=>!x.hecho).length + " pendientes";
+    }
+  </script>
+</body>
+</html>
