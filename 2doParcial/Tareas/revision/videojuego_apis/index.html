@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>videojuegos</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+
+<div class="container">
+    <h1>🎮 Gestor de Videojuegos</h1>
+    <hr>
+
+    <div class="flex-container">
+        <div class="card">
+            <h2 id="form-title">Agregar Nuevo Videojuego</h2>
+            <form id="formulario-videojuego" onsubmit="event.preventDefault(); procesarFormulario();">
+                <input type="hidden" id="videojuego-id" value="">
+
+                <div class="form-group">
+                    <label for="titulo">Título *</label>
+                    <input type="text" id="titulo" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" rows="3"></textarea>
+                </div>
+                <div class="flex-container" style="margin: 0; gap: 10px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="precio">Precio ($) *</label>
+                        <input type="number" id="precio" step="0.01" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="calificacion">Calificación (0-10)</label>
+                        <input type="number" id="calificacion" step="0.1" min="0" max="10">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lanzamiento">Fecha de Lanzamiento</label>
+                    <input type="date" id="lanzamiento">
+                </div>
+                <div class="form-group">
+                    <label for="id_genero">Género</label>
+                    <select id="id_genero"></select>
+                </div>
+                <div class="form-group">
+                    <label for="id_plataforma">Plataforma</label>
+                    <select id="id_plataforma"></select>
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Imagen (Opcional)</label>
+                    <input type="file" id="imagen" accept="image/*">
+                </div>
+                <button type="submit" id="btn-guardar">Guardar Videojuego</button>
+                <button type="button" id="btn-cancelar" class="btn-danger" style="display:none;" onclick="cancelarEdicion()">Cancelar Edición</button>
+            </form>
+        </div>
+
+        <div class="card" style="flex: 1.5;">
+            <h2>Búsqueda y Filtros</h2>
+            <div class="flex-container" style="gap: 10px;">
+                <input type="text" id="buscar-titulo" placeholder="Buscar por título..." style="padding: 8px; flex: 1; border: 1px solid #ccc; border-radius: 4px;">
+                <button onclick="buscarPorTitulo()">Buscar</button>
+            </div>
+            <div class="flex-container" style="gap: 10px; margin-top: 10px;">
+                <select id="filtrar-genero" onchange="filtrarPorGenero()" style="padding: 8px; flex: 1; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="">Filtrar por Género</option>
+                </select>
+                <select id="filtrar-plataforma" onchange="filtrarPorPlataforma()" style="padding: 8px; flex: 1; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="">Filtrar por Plataforma</option>
+                </select>
+                <button class="btn-warning" onclick="limpiarFiltros()">Limpiar</button>
+            </div>
+
+            <div id="spinner"></div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Imagen</th>
+                        <th>Título</th>
+                        <th>Precio</th>
+                        <th>Calificación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-videojuegos">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="modal-patch" class="modal">
+    <div class="modal-content">
+        <h3>⚡ Edición Rápida</h3>
+        <input type="hidden" id="patch-id">
+        <div class="form-group">
+            <label for="patch-precio">Nuevo Precio ($)</label>
+            <input type="number" id="patch-precio" step="0.01">
+        </div>
+        <div class="form-group">
+            <label for="patch-calificacion">Nueva Calificación</label>
+            <input type="number" id="patch-calificacion" step="0.1" min="0" max="10">
+        </div>
+        <div class="modal-actions">
+            <button class="btn-danger" onclick="cerrarModalPatch()">Cancelar</button>
+            <button onclick="guardarPatch()">Actualizar</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
